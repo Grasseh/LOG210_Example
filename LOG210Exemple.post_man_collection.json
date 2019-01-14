@@ -1,0 +1,319 @@
+{
+	"info": {
+		"_postman_id": "c0345f68-94f3-4e42-9d83-de4f716ae356",
+		"name": "LOG210 Exemple",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET Referents",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f39dcb18-2cc4-4184-9d0f-12d8f3cc2bb2",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.json()[0].id).to.equal(1);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.json()[1].titre).to.equal(\"Cours\");",
+							"});",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/referents",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"referents"
+					]
+				},
+				"description": "GET All Referents"
+			},
+			"response": []
+		},
+		{
+			"name": "Create first user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a99d3d5c-2a4f-4ab0-9361-f5d39f1362e2",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.json().telBureau).to.equal(\"14501234567\");",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.json().nom).to.equal(\"Gagné\");",
+							"});",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.environment.set(\"user_id\", pm.response.json().id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n    \"nom\": \"Gagné\",\n    \"prenom\": \"Steve\",\n    \"titre\": \"Mr.\",\n    \"telBureau\": \"14501234567\",\n    \"fax\": \"15142345678\",\n    \"courriel\": \"steve.gagne.4@ens.etsmtl.ca\",\n    \"receptionCourriel\": true\n}"
+				},
+				"url": {
+					"raw": "{{host}}/referents",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"referents"
+					]
+				},
+				"description": "Create first user"
+			},
+			"response": []
+		},
+		{
+			"name": "Create second user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "80f7c635-585e-4937-8e82-ef4c93343bf6",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.json().id).to.equal(2);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.json().nom).to.equal(\"210\");",
+							"});",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.environment.set(\"second_user\", pm.response.json().id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n    \"nom\": \"210\",\n    \"prenom\": \"Log\",\n    \"titre\": \"Cours\",\n    \"telBureau\": \"14501234567\",\n    \"fax\": \"15142345678\",\n    \"courriel\": \"log210@log210.log210\",\n    \"receptionCourriel\": false\n}"
+				},
+				"url": {
+					"raw": "{{host}}/referents",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"referents"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Single User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "31254034-4a15-4135-8e27-17c7c38d7568",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.json().courriel).to.equal(\"steve.gagne.4@ens.etsmtl.ca\");",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.json().nom).to.equal(\"Gagné\");",
+							"});",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/referents/{{user_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"referents",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch First User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dd376d36-b0e3-4477-acda-b620ac754e24",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.json().prenom).to.equal(\"Steeve\");",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.json().nom).to.equal(\"Gagné\");",
+							"});",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n    \"prenom\": \"Steeve\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/referents/{{user_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"referents",
+						"{{user_id}}"
+					]
+				},
+				"description": "Patch First User"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete first user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "44a27981-e784-409d-8281-ac939bb7ce7e",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/referents/{{user_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"referents",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check that user got deleted",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "92310e82-ce9c-4092-a446-0bace9d17582",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.json()[0].id).to.equal(2);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.json()[0].titre).to.equal(\"Cours\");",
+							"});",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/referents",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"referents"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
